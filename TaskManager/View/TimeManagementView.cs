@@ -8,8 +8,46 @@ using TaskManager.Service;
 
 namespace TaskManager.View
 {
-    public class TimeManagementView
+    public class TimeManagementView:BaseView<Time>
     {
+        public override BaseRepository<Time> CreateRepo()
+        {
+            return new TimesRepository("times.txt");
+        }
+
+        public override void RenderToConsole(Time time)
+        {
+            Console.WriteLine("ID: " + time.Id);
+            Console.WriteLine("Task ID: " + time.TaskId);
+            Console.WriteLine("Time taken: " + time.TimeTaken);
+            Console.WriteLine("User assigned: " + time.UserReported);
+            Console.WriteLine("Created by: " + time.Creator);
+            Console.WriteLine($"Created on : {time.DateTaken.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}");
+
+            Console.WriteLine("########################################");
+        }
+
+        public override Time ReadFromConsole(Time time)
+        {
+            Console.WriteLine("Add new Time: ");
+
+            Console.Write("Time: ");
+            time.TimeTaken = int.Parse(Console.ReadLine());
+
+            Console.Write("Task ID: ");
+            time.TaskId = int.Parse(Console.ReadLine());
+
+            time.Creator = AuthenticationService.LoggedUser.Username;
+
+            Console.Write("User reported: ");
+            time.UserReported = Console.ReadLine();
+
+            time.DateTaken = DateTime.Now.Date;
+
+            return time;
+        }
+
+        /*
         public void Show()
         {
             while (true)
@@ -271,6 +309,6 @@ namespace TaskManager.View
             }
 
             Console.ReadKey(true);
-        }
+        }*/
     }
 }

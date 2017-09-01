@@ -57,7 +57,9 @@
     <Compile Include="Service\AuthenticationService.cs" />
     <Compile Include="Tools\Enumerations.cs" />
     <Compile Include="View\AdminView.cs" />
+    <Compile Include="View\BaseView.cs" />
     <Compile Include="View\CommentManagementView.cs" />
+    <Compile Include="View\CommentsTimesView.cs" />
     <Compile Include="View\LoginView.cs" />
     <Compile Include="View\TaskManagementView.cs" />
     <Compile Include="View\TimeManagementView.cs" />

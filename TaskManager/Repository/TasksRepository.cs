@@ -1,5 +1,6 @@
 ﻿using System;
 using TaskManager.Entity;
+using TaskManager.Service;
 using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
@@ -13,6 +14,41 @@ namespace TaskManager.Repository
             :base(filePath)
         {
 
+        }
+
+        public List<Task> getByCreatorOrAssigned(int id)
+        {
+            List<Task> result = new List<Task>();
+            List<Task> filteredList = new List<Task>();
+
+            FileStream fs = new FileStream(this.filePath, FileMode.OpenOrCreate);
+            StreamReader sr = new StreamReader(fs);
+
+            try
+            {
+                while (!sr.EndOfStream)
+                {
+                    Task item = new Task();
+                    ReadItem(sr, item);
+                    result.Add(item);
+                }
+            }
+            finally
+            {
+                sr.Close();
+                fs.Close();
+            }
+
+            foreach(var item in result)
+            {
+                if(item.Creator == AuthenticationService.LoggedUser.Username 
+                    || item.UserTask == AuthenticationService.LoggedUser.Username)
+                {
+                    filteredList.Add(item);
+                }  
+            }
+
+            return filteredList;
         }
 
         public override void ReadItem(StreamReader sr, Task item)

@@ -6,8 +6,40 @@ using TaskManager.Service;
 
 namespace TaskManager.View
 {
-    public class CommentManagementView
+    public class CommentManagementView:BaseView<Comment>
     {
+
+        public override BaseRepository<Comment> CreateRepo()
+        {
+            return new CommentsRepository("comments.txt");
+        }
+
+        public override void RenderToConsole(Comment comment)
+        {
+            Console.WriteLine("ID: " + comment.Id);
+            Console.WriteLine("Comment: " + comment.CommentDescription);
+            Console.WriteLine("Task ID: " + comment.TaskId);
+            Console.WriteLine("Creator: " + comment.Creator);
+
+            Console.WriteLine("########################################");
+        }
+
+        public override Comment ReadFromConsole(Comment comment)
+        {
+            Console.WriteLine("Add new Comment: ");
+
+            Console.Write("Comment: ");
+            comment.CommentDescription = Console.ReadLine();
+
+            Console.Write("Task ID: ");
+            comment.TaskId = int.Parse(Console.ReadLine());
+
+            comment.Creator = AuthenticationService.LoggedUser.Username;
+
+            return comment;
+        }
+
+        /*
         public void Show()
         {
             while (true)
@@ -216,7 +248,7 @@ namespace TaskManager.View
             }
             Console.ReadKey(true);
         }
-        
+        */
     }
 
 }

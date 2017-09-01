@@ -79,9 +79,8 @@ namespace TaskManager.Repository
             {
                 while (!sr.EndOfStream)
                 {
-
                     T current = new T();
-                    ReadItem(sr, item);
+                    ReadItem(sr, current);
 
                     if (current.Id != item.Id)
                     {
